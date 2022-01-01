@@ -17,8 +17,16 @@ class Film:
         data = r.json()['results']
         for film in data:
             try:
-                if film['release_date'][:4] == self.year and film['title'] == self.title:
+                if abs(int(film['release_date'][:4]) - int(self.year)) < 2 and film['title'] == self.title:
                     return film['id']
             except KeyError:
                 continue
-        return None
+            except ValueError:
+                continue
+        while True:
+            user_key = input(f"TMDB ID could not be found for {self.title} ({self.year}). Please enter the TMDB "
+                             f"manually or type 'None' to move on: ")
+            if user_key.isnumeric():
+                return int(user_key)
+            elif user_key.lower() == "none":
+                return None
