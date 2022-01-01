@@ -12,7 +12,8 @@ class Film:
         self.id = self.get_tmdb()
 
     def get_tmdb(self):
-        search_url = "https://api.themoviedb.org/3/search/movie?api_key={}&query={}".format(get_token(), self.title)
+        search_url = "https://api.themoviedb.org/3/search/movie?api_key={}&query={}".format(get_token(),
+                                                                                            self.title.replace("#", ""))
         r = requests.get(search_url, headers=get_headers())
         data = r.json()['results']
         for film in data:

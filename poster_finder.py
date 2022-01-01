@@ -56,4 +56,4 @@ class Poster_Finder:
     @staticmethod
     def format_poster_string(poster_str):
         return poster_str.replace(" ", "_").replace(",", "").replace(".", "").replace("/", "_")\
-            .replace(":", "-")
+            .replace(":", "-").replace("?", "").replace("#", "").replace("!", "")

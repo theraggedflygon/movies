@@ -2,6 +2,8 @@ import json
 import os
 import tmdb_finder
 import poster_finder
+import photogrid
+
 
 class Movie_List:
     def __init__(self, session_name):
@@ -13,10 +15,12 @@ class Movie_List:
         if not os.path.exists(f"data/{self.name}_tmdb_ids.csv"):
             tmdb_finder.TMDB_Finder(self.config_name)
 
-        # if not os.path.exists(f"posters/{self.name}")
-        poster_finder.Poster_Finder(self.config_name)
+        if not os.path.exists(f"posters/{self.name}"):
+            poster_finder.Poster_Finder(self.config_name)
+
+        photogrid.Photogrid(self.config_name)
 
 
 if __name__ == "__main__":
-    run = "ben20"
+    run = "ben21"
     movies = Movie_List(run)
