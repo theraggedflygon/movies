@@ -1,4 +1,5 @@
 {
   "Name": "Ben2021",
-  "DataFile": "films-i-saw-for-the-first-time-in-2021.csv"
+  "DataFile": "films-i-saw-for-the-first-time-in-2021.csv",
+  "FileType": "List"
 }

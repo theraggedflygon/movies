@@ -24,13 +24,13 @@ class Poster_Finder:
                 if len(row) == 2:
                     self.titles.append(row[0])
                     if row[1] != "None":
-                        self.ids.append(int(row[1]))
+                        self.ids.append(row[1])
                     else:
                         self.ids.append(None)
                 else:
                     self.titles.append(",".join(row[:-1]))
                     if row[-1] != "None":
-                        self.ids.append(int(row[-1]))
+                        self.ids.append(row[-1])
                     else:
                         self.ids.append(None)
 
@@ -42,7 +42,10 @@ class Poster_Finder:
             poster_file = f"posters/{self.name}/{idx + 1}_{self.format_poster_string(title)}_poster.png"
 
             if self.ids[idx] is not None:
-                film_url = "https://api.themoviedb.org/3/movie/{}?api_key={}".format(self.ids[idx], self.token)
+                if self.ids[idx][0] == 't':
+                    film_url = "https://api.themoviedb.org/3/tv/{}?api_key={}".format(self.ids[idx][1:], self.token)
+                else:
+                    film_url = "https://api.themoviedb.org/3/movie/{}?api_key={}".format(self.ids[idx], self.token)
                 r = requests.get(film_url, headers=self.headers)
                 data = r.json()
                 poster_url = "http://image.tmdb.org/t/p/w185/{}".format(data['poster_path'])

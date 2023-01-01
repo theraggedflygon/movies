@@ -11,9 +11,7 @@ class Photogrid:
         with open(f"config/{config_filename}.json", 'r') as file:
             config = json.load(file)
         self.name = config['Name']
-        self.data_file = config['DataFile']
-        with open(f"data/{self.data_file}", 'r', encoding='utf-8') as file:
-            self.movie_count = len(file.read().split('\n')) - 1
+        self.movie_count = len(os.listdir(f"posters/{self.name}"))
         count_root = math.sqrt(self.movie_count)
         if count_root % 1 < 50:
             self.width_ctr = math.floor(count_root)
@@ -29,7 +27,7 @@ class Photogrid:
         for i in range(self.row_ctr + 1):
             for j in range(1, self.width_ctr + 1):
                 for poster in os.listdir(f"posters/{self.name}"):
-                    if poster.startswith("{}_".format(i * 20 + j)):
+                    if poster.startswith("{}_".format(i * self.width_ctr + j)):
                         try:
                             img = Image.open(f"posters/{self.name}/" + poster)
                             img = img.resize((100, 150))

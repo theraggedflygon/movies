@@ -8,8 +8,9 @@ class Film:
         self.title = title
         self.year = year
         self.index = idx
-
-        self.id = self.get_tmdb()
+        self.id = None
+        self.short = False
+        self.get_tmdb()
 
     def get_tmdb(self):
         search_url = "https://api.themoviedb.org/3/search/movie?api_key={}&query={}".format(get_token(),
@@ -18,8 +19,15 @@ class Film:
         data = r.json()['results']
         for film in data:
             try:
-                if abs(int(film['release_date'][:4]) - int(self.year)) < 2 and film['title'] == self.title:
-                    return film['id']
+                if abs(int(film['release_date'][:4]) - int(self.year)) < 2 \
+                        and film['title'].lower() == self.title.lower():
+                    film_url = "https://api.themoviedb.org/3/movie/{}?api_key={}".format(film['id'], get_token())
+                    r = requests.get(film_url, headers=get_headers())
+                    data = r.json()
+                    if data['runtime'] <= 40:
+                        self.short = True
+                    self.id = film['id']
+                    return
             except KeyError:
                 continue
             except ValueError:
@@ -28,6 +36,10 @@ class Film:
             user_key = input(f"TMDB ID could not be found for {self.title} ({self.year}). Please enter the TMDB "
                              f"manually or type 'None' to move on: ")
             if user_key.isnumeric():
-                return int(user_key)
+                self.id = user_key
+                return
+            elif len(user_key) > 1 and user_key[0] == 't' and user_key[1:].isnumeric():
+                self.id = user_key
+                return
             elif user_key.lower() == "none":
-                return None
+                return
