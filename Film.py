@@ -10,6 +10,7 @@ class Film:
         self.index = idx
         self.id = None
         self.short = False
+        self.tv = False
         self.get_tmdb()
 
     def get_tmdb(self):
@@ -39,7 +40,8 @@ class Film:
                 self.id = user_key
                 return
             elif len(user_key) > 1 and user_key[0] == 't' and user_key[1:].isnumeric():
-                self.id = user_key
+                self.id = user_key[1:]
+                self.tv = True
                 return
             elif user_key.lower() == "none":
                 return

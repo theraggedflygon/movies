@@ -45,6 +45,8 @@ class TMDB_Finder:
             if new_film.id is not None:
                 if not includes['shorts'] and new_film.short:
                     continue
+                if not includes['tv'] and new_film.tv:
+                    continue
                 self.movies.append(new_film)
                 repeat_check.append(check_str)
                 ctr += 1
@@ -54,4 +56,7 @@ class TMDB_Finder:
             for movie in self.movies:
                 if movie.id is None:
                     print(f"{movie.title} TMDB ID Could Not Be Found")
-                file.write("{},{}\n".format(movie.title, movie.id))
+                if movie.tv:
+                    file.write("{},t{}\n".format(movie.title, movie.id))
+                else:
+                    file.write("{},{}\n".format(movie.title, movie.id))

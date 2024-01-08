@@ -22,5 +22,5 @@ class Movie_List:
 
 
 if __name__ == "__main__":
-    run = "mia22diary"
+    run = "sadie23diary"
     movies = Movie_List(run)
